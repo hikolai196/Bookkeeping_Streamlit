@@ -9,11 +9,11 @@ The purpose of this codebase and its accompanying application (Streamlit) lies i
 To get started with this project:
 1. Clone the repository (if using Git):
    ```bash
-   git clone https://github.com/your-username/projectname.git
-   cd projectname
+   git clone https://github.com/hikolai196/Bookkeeping_Streamlit.git
+   cd Bookkeeping_Streamlit
 2. Ensure you have pip, then install dependencies using pip as follows:
     ```vash
     pip3 install -r requirements.txt
-3.  Once dependencies are installed and the environment is set up correctly with Streamlit (and any additional libraries), you can run your application by executing streamlit run app.py or similar command, depending on how this project has been structured: Running Your App
+3.  Once dependencies are installed and the environment is set up correctly with Streamlit (and any additional libraries), you can run your application by executing streamlit run app.py or a similar command, depending on how this project has been structured: Running Your App
 
 Remember to replace 'projectname' with your actual repository name and adjust the installation commands according to whether you are using Node or Python, as well as any specific versions of libraries required for this project (e.g., Streamlit). The _vscodecontentref_ link should be updated accordingly if it points towards a different source where requirements.txt is located.
