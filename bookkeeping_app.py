@@ -148,7 +148,7 @@ def display_expense_charts(data):
                 x='Month-Year', 
                 y='Amount', 
                 color='Category',
-                title='Monthly Expense Distribution by Category', 
+                title='', 
                 barmode='stack',
                 color_discrete_map={cat: CATEGORY_COLORS[cat] for cat in filtered_categories},
                 category_orders={
@@ -169,7 +169,7 @@ def display_expense_charts(data):
                 category_summary, 
                 values='Amount', 
                 names='Category', 
-                title='Category Distribution',
+                title='',
                 color='Category',
                 color_discrete_map={cat: CATEGORY_COLORS[cat] for cat in filtered_categories},
                 category_orders={"Category": filtered_categories}
@@ -206,7 +206,7 @@ def display_income_expense_chart(data):
         x='Month-Year', 
         y='Amount', 
         color='Type',
-        title='Monthly Income vs Expenses', 
+        title='', 
         barmode='group',
         color_discrete_map=TYPE_COLORS,
         category_orders={
@@ -224,32 +224,49 @@ def display_income_expense_chart(data):
     st.plotly_chart(fig)
 
 def display_recent_entries(data):
-    """Display the five most recent entries added to the bookkeeping app."""
+    """Display the five most recent entries and allow edit/delete."""
     st.subheader('Recent Entries')
-    
+
     if data.empty:
         st.info('No entries available.')
         return
-        
-    # Sort data by date in descending order and get the 5 most recent entries
-    recent_data = data.sort_values('Date', ascending=False).head(5)
-    
-    # Format date for display - create a copy to avoid warning
-    recent_data_display = recent_data.copy()
-    recent_data_display['Date'] = recent_data_display['Date'].dt.strftime('%Y-%m-%d')
-    
-    # Display in a nice table with better column formatting
-    st.dataframe(
-        recent_data_display[['Date', 'Category', 'Payment', 'Amount', 'Details']],
-        column_config={
-            "Date": "Date",
-            "Category": "Category",
-            "Payment": "Payment Method",
-            "Amount": st.column_config.NumberColumn("Amount", format="%d"),
-            "Details": "Description"
-        },
-        hide_index=True
-    )
+
+    # Sort by date and get the most recent 5
+    recent_data = data.sort_values('Date', ascending=False).head(5).copy()
+    recent_data['Date'] = pd.to_datetime(recent_data['Date'])  # ensure datetime
+
+    st.markdown("### Most Recent Entries (Edit or Delete)")
+
+    updated = False
+
+    for idx, row in recent_data.iterrows():
+        with st.expander(f"{row['Date'].date()} | {row['Category']} | ${row['Amount']}"):
+            # Editable fields
+            new_date = st.date_input("Date", row['Date'].date(), key=f"date_{idx}")
+            new_category = st.selectbox("Category", CATEGORY_LIST, index=CATEGORY_LIST.index(row['Category']), key=f"cat_{idx}")
+            new_payment = st.selectbox("Payment", PAYMENT_LIST, index=PAYMENT_LIST.index(row['Payment']), key=f"pay_{idx}")
+            new_amount = st.number_input("Amount", min_value=0, value=int(row['Amount']), step=1, key=f"amt_{idx}")
+            new_details = st.text_input("Details", row['Details'], key=f"det_{idx}")
+
+            col1, col2 = st.columns(2)
+            with col1:
+                if st.button("Save Changes", key=f"save_{idx}"):
+                    data.loc[idx, 'Date'] = pd.to_datetime(new_date)
+                    data.loc[idx, 'Category'] = new_category
+                    data.loc[idx, 'Payment'] = new_payment
+                    data.loc[idx, 'Amount'] = int(new_amount)
+                    data.loc[idx, 'Details'] = new_details
+                    updated = True
+
+            with col2:
+                if st.button("Delete Entry", key=f"del_{idx}"):
+                    data.drop(index=idx, inplace=True)
+                    updated = True
+
+    if updated:
+        save_data(data)
+        st.success("Changes applied.")
+        st.rerun()
 
 # ---Main Application---
 def main():
@@ -269,10 +286,13 @@ def main():
     st.sidebar.markdown('---')
     
     if add_entry:
-        data = add_new_entry(data, date, category, payment, amount, details)
-        save_data(data)
-        st.sidebar.success('Entry added successfully!')
-    
+        if amount < 0:
+            st.sidebar.error("Amount must be greater than 0.")
+        else:
+            data = add_new_entry(data, date, category, payment, amount, details)
+            save_data(data)
+            st.sidebar.success('Entry added successfully!')
+
     if not data.empty:
         # Date Range Filter - Moved earlier so filtered data is available for all visualizations
         st.sidebar.header('Filter Data by Date Range')
@@ -285,9 +305,20 @@ def main():
         
         if not filtered_data.empty:
             # Display Pivot Table with filtered data
-            st.subheader('Data Summary')
             date_range_text = f"({start_date.strftime('%Y-%m-%d')} to {end_date.strftime('%Y-%m-%d')})"
             st.caption(f"Showing data for selected date range {date_range_text}")
+            
+            # Income and Expense Summary
+            income = filtered_data[filtered_data['Category'].isin(['Salary', 'Other_Income'])]['Amount'].sum()
+            expense = filtered_data[~filtered_data['Category'].isin(['Salary', 'Other_Income'])]['Amount'].sum()
+            net_balance = income - expense
+
+            st.markdown("### Summary Overview")
+            col1, col2, col3 = st.columns(3)
+            col1.metric("Income", f"${income:,}")
+            col2.metric("Expense", f"${expense:,}")
+            col3.metric("Net Balance", f"${net_balance:,}", delta=f"${net_balance - expense:,}" if net_balance >= 0 else f"-${abs(net_balance - expense):,}")
+            
             display_pivot_table(filtered_data)
             
             # Display Charts with filtered data - now using separate functions
