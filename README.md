@@ -1,17 +1,67 @@
-# Bookkeeping APP README
+# Bookkeeping App README
 
-This is an interactive Streamlit app designed to provide a user-friendly interface with bookkeeping data from CSV files. Users can easily switch between different datasets by changing the filename as per their preference.
-
+---
 ## Introduction
-The purpose of this codebase and its accompanying application (Streamlit) lies in simplifying financial record management for individuals or small businesses who wish to maintain a clear overview without delving deep into spreadsheet software complexities. It's particularly beneficial for those new to bookkeeping, offering an intuitive way to track income/expenses and generate basic reports directly from their CSV data files.
+This is an interactive Streamlit application designed for simple and efficient financial record management.
+It provides a user-friendly interface to track income and expenses, visualize trends, and generate reports directly from CSV data files.
+Ideal for individuals or small businesses looking for an intuitive bookkeeping solution without the complexity of traditional spreadsheets.
 
+---
+## Features
+- Add, edit, and delete bookkeeping entries through a sidebar form
+- Filter records by date range for focused analysis
+- Visualize data with interactive charts (monthly expenses, category summaries, income vs. expenses)
+- Download pivot tables for further analysis
+- Color-coded categories for clear insights
+- Recent entry management for quick edits and deletions
+- Easy CSV file support for data portability and backup
+
+---
 ## Installation
-To get started with this project:
-1. Clone the repository (if using Git):
-   ```bash
+
+1. **Clone the Repository**
+   
+```bash
    git clone https://github.com/hikolai196/Bookkeeping_Streamlit.git
    cd Bookkeeping_Streamlit
-2. Ensure you have pip, then install dependencies using pip as follows:
-    ```vash
-    pip3 install -r requirements.txt
-3.  Once dependencies are installed and the environment is set up correctly with Streamlit (and any additional libraries), you can run your application by executing streamlit run app.py or a similar command, depending on how this project has been structured: Running Your App
+```
+
+2. Install Dependencies 
+- Ensure you have pip installed. 
+- Install required packages: 
+
+   `pip3 install -r requirements.txt`
+
+- Key dependencies: streamlit, pandas, plotly
+
+--- 
+## Running Your App
+
+- Start the Streamlit app by running: 
+
+   `streamlit run app.py`
+
+- The app will open in your browser, providing access to all interactive features.
+
+--- 
+## Customization & CSV Management
+
+- The app uses a CSV file (default: bookkeeping_data.csv) to store your records. 
+- To switch datasets, change the filename in the code or upload a new CSV with the required columns:
+Date, Category, Payment, Amount, Details -> - All changes (add, edit, delete) are saved automatically to the CSV file.
+
+--- 
+## Contributing
+Contributions, bug reports, and suggestions are welcome! 
+Please fork the repository and submit a pull request, or open an issue for discussion.
+
+--- 
+## License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
+
+--- 
+## Credits
+
+- Developed by Yen-Ting "Hiko" Lai
+- Inspired by practical bookkeeping needs and open-source community solutions
