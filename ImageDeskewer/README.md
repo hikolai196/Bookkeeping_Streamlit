@@ -14,31 +14,30 @@ Failed to load image.
 Select four corners and download your deskewed image!
 
 ## Installation
-    1. Clone the repository:
-BASH
-```
+1. Clone the repository:
+
+```BASH
 git clone https://github.com/hikolai196/Streamlit_Apps.git
     cd Streamlit_Apps/ImageDeskewer
 ```
-    2. Install dependencies:
-BASH
-```
+2. Install dependencies:
+```BASH
 pip install -r requirements.txt
 ```
 *Required packages: `streamlit`, `streamlit-drawable-canvas`, `opencv-python`, `numpy`, `Pillow`*
 ---
 ## Usage
-    1. Run the app:
-BASH
-```
+1. Run the app:
+
+```BASH
 streamlit run main.py
 ```
-    2. How to use:
-        - Upload a PNG or JPG image.
-        - Click on the image to select four points (in order: top-left, top-right, bottom-right, - bottom-left).
-        - Adjust points as needed.
-        - Choose output format (PNG or JPG).
-        - Download the deskewed result.
+2. How to use:
+    - Upload a PNG or JPG image.
+    - Click on the image to select four points (in order: top-left, top-right, bottom-right, - bottom-left).
+    - Adjust points as needed.
+    - Choose output format (PNG or JPG).
+    - Download the deskewed result.
 ---
 ## File Structure
 ```
