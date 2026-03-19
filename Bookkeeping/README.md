@@ -22,8 +22,8 @@ Ideal for individuals or small businesses looking for an intuitive bookkeeping s
 1. **Clone the Repository**
    
 ```bash
-   git clone https://github.com/hikolai196/Bookkeeping_Streamlit.git
-   cd Bookkeeping_Streamlit
+git clone https://github.com/hikolai196/Streamlit_Apps.git
+    cd Streamlit_Apps/Bookkeeping
 ```
 
 2. Install Dependencies 
