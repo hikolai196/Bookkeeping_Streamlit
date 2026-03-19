@@ -24,7 +24,7 @@ git clone https://github.com/hikolai196/Streamlit_Apps.git
 ```BASH
 pip install -r requirements.txt
 ```
-*Required packages: `streamlit`, `streamlit-drawable-canvas`, `opencv-python`, `numpy`, `Pillow`*
+Required packages: `streamlit`, `streamlit-drawable-canvas`, `opencv-python`, `numpy`, `Pillow`
 ---
 ## Usage
 1. Run the app:
