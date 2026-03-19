@@ -17,8 +17,8 @@ Select four corners and download your deskewed image!
     1. Clone the repository:
 BASH
 ```
-git clone https://github.com/yourusername/image-deskewer.git
-    cd image-deskewer
+git clone https://github.com/hikolai196/Streamlit_Apps.git
+    cd Streamlit_Apps/ImageDeskewer
 ```
     2. Install dependencies:
 BASH
